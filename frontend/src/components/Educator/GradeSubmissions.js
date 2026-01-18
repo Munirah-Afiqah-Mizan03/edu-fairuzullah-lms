@@ -574,43 +574,35 @@ const GradeSubmissions = () => {
                       {submissions.filter(s => s.marks !== null).length} of {submissions.length} submissions graded
                     </small>
                     <div className="btn-group">
-                      <button 
-                        className="btn btn-sm btn-outline-primary"
-                        onClick={() => {
-                          // Download all submissions as ZIP (would need backend endpoint)
-                          alert('This would download all submissions as a ZIP file');
-                        }}
-                      >
-                        <button 
-                        className="btn btn-sm btn-outline-primary"
-                        onClick={async () => {
-                          try {
-                            const token = localStorage.getItem('token');
-                            const assessmentTitle = getAssessmentById(selectedAssessment)?.title.replace(/[^a-z0-9]/gi, '_');
-                            const fileName = `submissions_${assessmentTitle}.zip`;
-                            
-                            // Create a temporary link for download
-                            const response = await axios.get(`/api/assessments/${selectedAssessment}/download-all`, {
-                              headers: { Authorization: `Bearer ${token}` },
-                              responseType: 'blob'
-                            });
-                            
-                            const url = window.URL.createObjectURL(new Blob([response.data]));
-                            const link = document.createElement('a');
-                            link.href = url;
-                            link.setAttribute('download', fileName);
-                            document.body.appendChild(link);
-                            link.click();
-                            link.remove();
-                          } catch (error) {
-                            alert(error.response?.data?.error || 'Failed to download submissions');
-                          }
-                        }}
-                      >
-                        <FaDownload className="me-1" /> Download All as ZIP
-                      </button>
-                      </button>
-                    </div>
+                    <button 
+                      className="btn btn-sm btn-outline-primary"
+                      onClick={async () => {
+                        try {
+                          const token = localStorage.getItem('token');
+                          const assessmentTitle = getAssessmentById(selectedAssessment)?.title.replace(/[^a-z0-9]/gi, '_');
+                          const fileName = `submissions_${assessmentTitle}.zip`;
+                          
+                          // Create a temporary link for download
+                          const response = await axios.get(`/api/assessments/${selectedAssessment}/download-all`, {
+                            headers: { Authorization: `Bearer ${token}` },
+                            responseType: 'blob'
+                          });
+                          
+                          const url = window.URL.createObjectURL(new Blob([response.data]));
+                          const link = document.createElement('a');
+                          link.href = url;
+                          link.setAttribute('download', fileName);
+                          document.body.appendChild(link);
+                          link.click();
+                          link.remove();
+                        } catch (error) {
+                          alert(error.response?.data?.error || 'Failed to download submissions');
+                        }
+                      }}
+                    >
+                      <FaDownload className="me-1" /> Download All as ZIP
+                    </button>
+                  </div>
                   </div>
                 </div>
               )}
