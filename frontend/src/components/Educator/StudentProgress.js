@@ -12,7 +12,8 @@ import {
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 } from 'chart.js';
 
 ChartJS.register(
@@ -23,7 +24,8 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 );
 
 const StudentProgress = () => {
@@ -362,56 +364,56 @@ const StudentProgress = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {enrollments.map(enrollment => (
-                          <tr key={enrollment.id}>
-                            <td>
-                              <div className="d-flex align-items-center">
-                                <div className="avatar me-2">
-                                  <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px' }}>
-                                    {enrollment.student_name.charAt(0)}
-                                  </div>
+                        {enrollments.map((enrollment, index) => (
+                        <tr key={enrollment.id || `enrollment-${index}`}>
+                          <td>
+                            <div className="d-flex align-items-center">
+                              <div className="avatar me-2">
+                                <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px' }}>
+                                  {enrollment.student_name?.charAt(0) || '?'}
                                 </div>
-                                <strong>{enrollment.student_name}</strong>
                               </div>
-                            </td>
-                            <td>
-                              <small>{enrollment.email}</small>
-                            </td>
-                            <td>
-                              <small>{new Date(enrollment.enrolled_at).toLocaleDateString()}</small>
-                            </td>
-                            <td>
-                              <div className="d-flex align-items-center">
-                                <div className="progress flex-grow-1 me-2" style={{ height: '8px' }}>
-                                  <div 
-                                    className={`progress-bar bg-${getProgressColor(enrollment.progress)}`}
-                                    style={{ width: `${enrollment.progress}%` }}
-                                  ></div>
-                                </div>
-                                <span>{enrollment.progress}%</span>
+                              <strong>{enrollment.student_name || 'Unknown Student'}</strong>
+                            </div>
+                          </td>
+                          <td>
+                            <small>{enrollment.email || 'No email'}</small>
+                          </td>
+                          <td>
+                            <small>{enrollment.enrolled_at ? new Date(enrollment.enrolled_at).toLocaleDateString() : 'N/A'}</small>
+                          </td>
+                          <td>
+                            <div className="d-flex align-items-center">
+                              <div className="progress flex-grow-1 me-2" style={{ height: '8px' }}>
+                                <div 
+                                  className={`progress-bar bg-${getProgressColor(enrollment.progress || 0)}`}
+                                  style={{ width: `${enrollment.progress || 0}%` }}
+                                ></div>
                               </div>
-                            </td>
-                            <td>
-                              {enrollment.completed ? (
-                                <span className="badge bg-success">
-                                  <FaCalendarCheck className="me-1" /> Completed
-                                </span>
-                              ) : (
-                                <span className="badge bg-warning">In Progress</span>
-                              )}
-                            </td>
-                            <td>
-                              <span className="badge bg-info">
-                                {enrollment.submissions_count || 0} submitted
+                              <span>{enrollment.progress || 0}%</span>
+                            </div>
+                          </td>
+                          <td>
+                            {enrollment.completed ? (
+                              <span className="badge bg-success">
+                                <FaCalendarCheck className="me-1" /> Completed
                               </span>
-                            </td>
-                            <td>
-                              <button className="btn btn-sm btn-outline-primary">
-                                View Details
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
+                            ) : (
+                              <span className="badge bg-warning">In Progress</span>
+                            )}
+                          </td>
+                          <td>
+                            <span className="badge bg-info">
+                              {enrollment.submissions_count || 0} submitted
+                            </span>
+                          </td>
+                          <td>
+                            <button className="btn btn-sm btn-outline-primary">
+                              View Details
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
                       </tbody>
                     </table>
                   </div>
