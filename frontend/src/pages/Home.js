@@ -32,7 +32,7 @@ const Home = () => {
             </div>
             <div className="col-lg-6 text-center">
               <img 
-                src="https://via.placeholder.com/500x300/0d6efd/ffffff?text=LMS+Dashboard" 
+                src="/images/dashboard-placeholder.png" 
                 alt="LMS Dashboard" 
                 className="img-fluid rounded shadow"
               />
